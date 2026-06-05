@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}خانه{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1>به سامانه ثبت هزینه‌های روزانه خوش آمدید</h1>
+    {% if user.is_authenticated %}
+        <p class="lead">شما وارد شده‌اید. به زودی داشبورد شما اینجا خواهد بود.</p>
+    {% else %}
+        <p class="lead">لطفاً برای شروع وارد شوید یا ثبت‌نام کنید.</p>
+    {% endif %}
+</div>
+{% endblock %}
