@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}ویرایش دسته‌بندی{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>ویرایش دسته‌بندی</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">نام دسته‌بندی</label>
+                        <input type="text" name="name" class="form-control" value="{{ category.name }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">ذخیره</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
