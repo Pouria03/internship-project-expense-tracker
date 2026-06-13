@@ -1,14 +1,70 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}خانه{% endblock %}
 
 {% block content %}
-<div class="text-center mt-5">
-    <h1>به سامانه ثبت هزینه‌های روزانه خوش آمدید</h1>
+<div class="container mt-4">
+
+    <!-- بخش ۱: تصویر -->
+    <section class="row align-items-center mb-5 rounded-4 shadow-sm overflow-hidden" style="min-height: 400px;">
+        <img class="w-100 h-100" src="{% static 'images/banner.png' %}" alt="سامانه مدیریت هزینه های شخصی" style="object-fit: cover;">
+    </section>
+
+    <!-- بخش ۲: توضیحات -->
+    <section class="row align-items-center mb-5 bg-dark text-white p-5 rounded-4 shadow-sm">
+        <div class="col-md-6">
+            <h1 class="mb-3">💰 سامانه ثبت هزینه‌های روزانه</h1>
+        </div>
+        <div class="col-md-6">
+            <p class="lead mb-2 text-info"><strong>مدیریت ساده و هوشمند هزینه‌های روزمره</strong></p>
+            <p>
+                با این سامانه می‌توانید هزینه‌های روزانه خود را ثبت، دسته‌بندی و تحلیل کنید.<br>
+                نمودارهای بصری، خروجی اکسل و دسته‌بندی شخصی‌سازی‌شده از امکانات این سامانه است.
+            </p>
+        </div>
+    </section>
+
+    <!-- بخش ۳: باکس‌ها -->
     {% if user.is_authenticated %}
-        <p class="lead">شما وارد شده‌اید. به زودی داشبورد شما اینجا خواهد بود.</p>
+        <section class="row mb-5 bg-light p-5 rounded-4 shadow-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center bg-info text-white rounded-3">
+                        <h3>📁</h3>
+                        <h5>دسته‌بندی‌ها</h5>
+                        <p>ایجاد و مدیریت دسته‌بندی‌های هزینه</p>
+                        <a href="{% url 'categories:category_list' %}" class="btn btn-outline-light">مشاهده</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center bg-warning text-white rounded-3">
+                        <h3>💰</h3>
+                        <h5>هزینه‌ها</h5>
+                        <p>ثبت، ویرایش و حذف هزینه‌های روزانه</p>
+                        <a href="{% url 'expenses:expense_list' %}" class="btn btn-outline-light">مشاهده</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center bg-danger text-white rounded-3">
+                        <h3>📊</h3>
+                        <h5>آمار و نمودار</h5>
+                        <p>تحلیل هزینه‌ها با نمودارهای تعاملی</p>
+                        <a href="{% url 'stats:stats' %}" class="btn btn-outline-light">مشاهده</a>
+                    </div>
+                </div>
+            </div>
+        </section>
     {% else %}
-        <p class="lead">لطفاً برای شروع وارد شوید یا ثبت‌نام کنید.</p>
+        <section class="text-center mb-5">
+            <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-lg me-2">ورود</a>
+            <a href="{% url 'accounts:register' %}" class="btn btn-success btn-lg">ثبت‌نام</a>
+        </section>
     {% endif %}
+
 </div>
 {% endblock %}
