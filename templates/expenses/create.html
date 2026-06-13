@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}هزینه جدید{% endblock %}
 
 {% block content %}
@@ -21,7 +20,7 @@
                         <select name="category" class="form-select" required>
                             <option value="">-- انتخاب کنید --</option>
                             {% for cat in categories %}
-                                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                            <option value="{{ cat.id }}">{{ cat.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -32,13 +31,13 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">مبلغ (تومان)</label>
-                            <input type="number" name="amount" class="form-control" value="0" min="0" required>
+                            <input type="text" name="amount" class="form-control" min="0" required>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">ارزیابی</label>
                             <select name="evaluation" class="form-select">
                                 {% for value, label in evaluation_choices %}
-                                    <option value="{{ value }}">{{ label }}</option>
+                                <option value="{{ value }}">{{ label }}</option>
                                 {% endfor %}
                             </select>
                         </div>

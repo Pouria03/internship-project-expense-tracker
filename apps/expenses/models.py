@@ -86,4 +86,6 @@ class Expense(models.Model):
     @property
     def total(self):
         """Calculate total cost for this expense record."""
-        return self.quantity * self.amount
+        value = self.quantity * self.amount
+        return f"{value:,}"
+    

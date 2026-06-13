@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block title %}هزینه‌ها{% endblock %}
 
@@ -30,7 +31,7 @@
                     <td>{{ expense.title }}</td>
                     <td>{{ expense.category.name }}</td>
                     <td>{{ expense.quantity }}</td>
-                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.amount|intcomma }}</td>
                     <td>{{ expense.total }}</td>
                     <td>{{ expense.get_evaluation_display }}</td>
                     <td>{{ expense.created_at|date:"Y/m/d" }}</td>
