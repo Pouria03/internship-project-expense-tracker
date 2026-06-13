@@ -8,6 +8,6 @@ urlpatterns = [
     path('categories/', include('apps.expenses.urls.category_urls')),
     path('expenses/', include('apps.expenses.urls.expense_urls')),
     path('stats/', include('apps.expenses.urls.stats_urls')),
-
+    path('export/', include('apps.expenses.urls.excel_urls')),
     path('', home_view, name='home'),
 ]
