@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}آمار هزینه‌ها{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📊 آمار هزینه‌ها</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h5>کل هزینه</h5>
+                <h3>{{ total_spent|intcomma }} تومان</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h5>تعداد هزینه‌ها</h5>
+                <h3>{{ total_count }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">هزینه بر اساس دسته‌بندی</div>
+            <div class="card-body">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">هزینه بر اساس ماه</div>
+            <div class="card-body">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">ارزیابی هزینه‌ها</div>
+            <div class="card-body">
+                <canvas id="evalChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var chartData = JSON.parse('{{ chart_data|safe }}');
+    
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'pie',
+        data: {
+            labels: chartData.category_labels,
+            datasets: [{
+                data: chartData.category_data,
+                backgroundColor: ['#FF6384','#36A2EB','#FFCE56','#4BC0C0','#9966FF','#FF9F40']
+            }]
+        }
+    });
+    new Chart(document.getElementById('monthlyChart'), {
+        type: 'bar',
+        data: {
+            labels: chartData.monthly_labels,
+            datasets: [{
+                label: 'هزینه (تومان)',
+                data: chartData.monthly_data,
+                backgroundColor: '#36A2EB'
+            }]
+        }
+    });
+    new Chart(document.getElementById('evalChart'), {
+        type: 'doughnut',
+        data: {
+            labels: chartData.evaluation_labels,
+            datasets: [{
+                data: chartData.evaluation_data,
+                backgroundColor: ['#FF6384','#FFCE56','#36A2EB','#4BC0C0']
+            }]
+        }
+    });
+</script>
+{% endblock %}
