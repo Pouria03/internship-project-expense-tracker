@@ -34,7 +34,7 @@
                     <td>{{ expense.amount|intcomma }}</td>
                     <td>{{ expense.total }}</td>
                     <td>{{ expense.get_evaluation_display }}</td>
-                    <td>{{ expense.created_at|date:"Y/m/d" }}</td>
+                    <td>{{ expense.jalali_date  }}</td>
                     <td>
                         <a href="{% url 'expenses:expense_update' expense.id %}" class="btn btn-sm btn-warning">ویرایش</a>
                         <form action="{% url 'expenses:expense_delete' expense.id %}" method="POST" style="display:inline;">

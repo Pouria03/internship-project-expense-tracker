@@ -4,6 +4,7 @@ from django.contrib import messages
 from apps.expenses.services.expense_service import ExpenseService
 from apps.expenses.services.category_service import CategoryService
 from apps.expenses.models import Expense
+from apps.expenses.helpers.jalali_helper import to_jalali
 
 expense_service = ExpenseService()
 category_service = CategoryService()
@@ -12,6 +13,8 @@ category_service = CategoryService()
 @login_required
 def expense_list(request):
     expenses = expense_service.get_user_expenses(request.user)
+    for expense in expenses:
+        expense.jalali_date = to_jalali(expense.created_at)
     return render(request, 'expenses/list.html', {'expenses': expenses})
 
 
