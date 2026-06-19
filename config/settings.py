@@ -129,3 +129,13 @@ AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'home'
+
+
+# render deployment configs
+import os
+
+SECRET_KEY = os.environ.get('SECRET_KEY', 'your-fallback-key')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
