@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils import timezone
 from apps.expenses.services.expense_service import ExpenseService
 from apps.expenses.services.category_service import CategoryService
 from apps.expenses.models import Expense
-from apps.expenses.helpers.jalali_helper import to_jalali
+from apps.expenses.helpers.jalali_helper import to_jalali, from_jalali
 
 expense_service = ExpenseService()
 category_service = CategoryService()
@@ -27,6 +28,14 @@ def expense_create(request):
             if not category or category.user != request.user:
                 raise ValueError('دسته‌بندی نامعتبر است.')
 
+            date_str = request.POST.get('jalali_date', '')
+            created_at = None
+            if date_str:
+                created_at = from_jalali(date_str)
+                if created_at is None:
+                    raise ValueError('فرمت تاریخ نامعتبر است. فرمت صحیح: 1404/04/09')
+                created_at = timezone.make_aware(created_at)
+
             expense_service.create_expense(
                 user=request.user,
                 category=category,
@@ -34,16 +43,19 @@ def expense_create(request):
                 quantity=int(request.POST.get('quantity', 1)),
                 amount=int(request.POST.get('amount', 0)),
                 description=request.POST.get('description', ''),
-                evaluation=request.POST.get('evaluation', 'average')
+                evaluation=request.POST.get('evaluation', 'average'),
+                created_at=created_at
             )
             messages.success(request, 'هزینه با موفقیت ثبت شد.', extra_tags='success')
             return redirect('expenses:expense_list')
         except ValueError as e:
             messages.error(request, str(e), extra_tags='danger')
 
+    today_jalali = to_jalali(timezone.now())
     return render(request, 'expenses/create.html', {
         'categories': categories,
-        'evaluation_choices': Expense.Evaluation.choices
+        'evaluation_choices': Expense.Evaluation.choices,
+        'today_jalali': today_jalali,
     })
 
 
@@ -58,24 +70,34 @@ def expense_update(request, pk):
             if not category or category.user != request.user:
                 raise ValueError('دسته‌بندی نامعتبر است.')
 
-            expense_service.update_expense(
-                expense=expense,
+            update_kwargs = dict(
                 category=category,
                 title=request.POST.get('title', ''),
                 quantity=int(request.POST.get('quantity', 1)),
                 amount=int(request.POST.get('amount', 0)),
                 description=request.POST.get('description', ''),
-                evaluation=request.POST.get('evaluation', 'average')
+                evaluation=request.POST.get('evaluation', 'average'),
             )
+
+            date_str = request.POST.get('jalali_date', '')
+            if date_str:
+                created_at = from_jalali(date_str)
+                if created_at is None:
+                    raise ValueError('فرمت تاریخ نامعتبر است. فرمت صحیح: 1404/04/09')
+                update_kwargs['created_at'] = timezone.make_aware(created_at)
+
+            expense_service.update_expense(expense=expense, **update_kwargs)
             messages.success(request, 'هزینه با موفقیت ویرایش شد.', extra_tags='success')
             return redirect('expenses:expense_list')
         except ValueError as e:
             messages.error(request, str(e), extra_tags='danger')
 
+    expense_jalali_date = to_jalali(expense.created_at)
     return render(request, 'expenses/update.html', {
         'expense': expense,
         'categories': categories,
-        'evaluation_choices': Expense.Evaluation.choices
+        'evaluation_choices': Expense.Evaluation.choices,
+        'expense_jalali_date': expense_jalali_date,
     })
 
 

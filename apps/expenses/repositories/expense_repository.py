@@ -11,16 +11,19 @@ class ExpenseRepository:
         return Expense.objects.filter(id=expense_id).first()
 
     @staticmethod
-    def create(user, category, title, quantity, amount, description, evaluation):
-        return Expense.objects.create(
+    def create(user, category, title, quantity, amount, description, evaluation, created_at=None):
+        kwargs = dict(
             user=user,
             category=category,
             title=title,
             quantity=quantity,
             amount=amount,
             description=description,
-            evaluation=evaluation
+            evaluation=evaluation,
         )
+        if created_at is not None:
+            kwargs['created_at'] = created_at
+        return Expense.objects.create(**kwargs)
 
     @staticmethod
     def update(expense, **kwargs):
