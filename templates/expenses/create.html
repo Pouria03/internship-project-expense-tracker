@@ -2,53 +2,55 @@
 {% block title %}هزینه جدید{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h4>ثبت هزینه جدید</h4>
+<div class="row justify-content-center fade-in">
+    <div class="col-md-7 col-lg-6">
+        <div class="glass-card" style="padding: 2rem;">
+            <div class="text-center mb-4">
+                <h4 style="color: var(--text-primary); font-weight: 700;">ثبت هزینه جدید</h4>
             </div>
-            <div class="card-body">
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label class="form-label">عنوان</label>
-                        <input type="text" name="title" class="form-control" required>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="glass-label">عنوان</label>
+                    <input type="text" name="title" class="glass-input" style="width: 100%;" required>
+                </div>
+                <div class="mb-3">
+                    <label class="glass-label">دسته‌بندی</label>
+                    <select name="category" class="glass-input" style="width: 100%;" required>
+                        <option value="">-- انتخاب کنید --</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="glass-label">تاریخ (شمسی)</label>
+                    <input type="text" name="jalali_date" class="glass-input" style="width: 100%;" value="{{ today_jalali }}" placeholder="مثال: 1404/04/09" data-jdp>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="glass-label">مقدار/تعداد</label>
+                        <input type="number" name="quantity" class="glass-input" style="width: 100%;" value="1" min="1" required>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">دسته‌بندی</label>
-                        <select name="category" class="form-select" required>
-                            <option value="">-- انتخاب کنید --</option>
-                            {% for cat in categories %}
-                            <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    <div class="col-md-4 mb-3">
+                        <label class="glass-label">مبلغ واحد (تومان)</label>
+                        <input type="text" name="amount" class="glass-input" style="width: 100%;" min="0" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="glass-label">ارزیابی</label>
+                        <select name="evaluation" class="glass-input" style="width: 100%;">
+                            {% for value, label in evaluation_choices %}
+                            <option value="{{ value }}">{{ label }}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">مقدار/تعداد</label>
-                            <input type="number" name="quantity" class="form-control" value="1" min="1" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">مبلغ (تومان)</label>
-                            <input type="text" name="amount" class="form-control" min="0" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">ارزیابی</label>
-                            <select name="evaluation" class="form-select">
-                                {% for value, label in evaluation_choices %}
-                                <option value="{{ value }}">{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">توضیحات</label>
-                        <textarea name="description" class="form-control" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-success w-100">ذخیره</button>
-                </form>
-            </div>
+                </div>
+                <div class="mb-4">
+                    <label class="glass-label">توضیحات</label>
+                    <textarea name="description" class="glass-input" style="width: 100%;" rows="3"></textarea>
+                </div>
+                <button type="submit" class="glass-btn glass-btn-success w-100" style="padding: 0.75rem;">ذخیره</button>
+            </form>
         </div>
     </div>
 </div>

@@ -11,7 +11,7 @@ class ExpenseService:
     def get_expense(self, expense_id):
         return self.repo.get_by_id(expense_id)
 
-    def create_expense(self, user, category, title, quantity, amount, description, evaluation):
+    def create_expense(self, user, category, title, quantity, amount, description, evaluation, created_at=None):
         title = title.strip()
         if not title:
             raise ValueError('عنوان هزینه نمی‌تواند خالی باشد.')
@@ -29,7 +29,8 @@ class ExpenseService:
             quantity=quantity,
             amount=amount,
             description=description.strip(),
-            evaluation=evaluation
+            evaluation=evaluation,
+            created_at=created_at
         )
 
     def update_expense(self, expense, **kwargs):

@@ -3,37 +3,45 @@
 {% block title %}دسته‌بندی‌ها{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>دسته‌بندی‌های من</h2>
-    <a href="{% url 'categories:category_create' %}" class="btn btn-primary">+ دسته‌بندی جدید</a>
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 fade-in">
+    <h2 class="page-title" style="margin-bottom: 0;">دسته‌بندی‌های من</h2>
+    <div class="mt-2 mt-md-0">
+        <a href="{% url 'categories:category_create' %}" class="glass-btn glass-btn-primary">+ دسته‌بندی جدید</a>
+    </div>
 </div>
 
 {% if categories %}
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>نام دسته‌بندی</th>
-                <th>عملیات</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for category in categories %}
+    <div class="glass-card fade-in" style="padding: 0; overflow-x: auto;">
+        <table class="glass-table">
+            <thead>
                 <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ category.name }}</td>
-                    <td>
-                        <a href="{% url 'categories:category_update' category.id %}" class="btn btn-sm btn-warning">ویرایش</a>
-                        <form action="{% url 'categories:category_delete' category.id %}" method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('حذف شود؟')">حذف</button>
-                        </form>
-                    </td>
+                    <th>#</th>
+                    <th>نام دسته‌بندی</th>
+                    <th>عملیات</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td style="color: var(--text-primary); font-weight: 500;">{{ category.name }}</td>
+                        <td>
+                            <a href="{% url 'categories:category_update' category.id %}" class="glass-btn glass-btn-warning glass-btn-sm">ویرایش</a>
+                            <form action="{% url 'categories:category_delete' category.id %}" method="POST" class="table-action-form">
+                                {% csrf_token %}
+                                <button type="submit" class="glass-btn glass-btn-danger glass-btn-sm" onclick="return confirm('حذف شود؟')">حذف</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% else %}
-    <p class="text-muted">هیچ دسته‌بندی‌ای ثبت نشده است.</p>
+    <div class="glass-empty-state fade-in">
+        <p style="font-size: 3rem; margin-bottom: 0.5rem;">📁</p>
+        <p>هیچ دسته‌بندی‌ای ثبت نشده است.</p>
+        <a href="{% url 'categories:category_create' %}" class="glass-btn glass-btn-primary mt-3" style="display: inline-block;">+ اولین دسته‌بندی را ایجاد کنید</a>
+    </div>
 {% endif %}
 {% endblock %}

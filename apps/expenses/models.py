@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from django.core.validators import MinValueValidator
 
 
@@ -67,7 +68,7 @@ class Expense(models.Model):
         related_name='expenses',
         verbose_name='کاربر'
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
+    created_at = models.DateTimeField(default=timezone.now, verbose_name='تاریخ ثبت')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='تاریخ ویرایش')
 
     class Meta:
