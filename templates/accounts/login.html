@@ -3,35 +3,41 @@
 {% block title %}ورود{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header text-center">
-                <h4>ورود به حساب</h4>
+<div class="row justify-content-center fade-in">
+    <div class="col-md-5 col-lg-4">
+        <div class="glass-card" style="padding: 2rem;">
+            <div class="text-center mb-4">
+                <h4 style="color: var(--text-primary); font-weight: 700;">ورود به حساب</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">برای مدیریت هزینه‌ها وارد شوید</p>
             </div>
-            <div class="card-body">
-                <!-- <form method="POST">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label class="form-label">نام کاربری</label>
-                        <input type="text" name="username" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">رمز عبور</label>
-                        <input type="password" name="password" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">ورود</button>
-                </form> -->
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary w-100">ورود</button>
-                </form>
-                <div class="mt-3 text-center">
-                    <a href="{% url 'accounts:register' %}">ثبت‌نام نکرده‌اید؟ کلیک کنید</a>
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="glass-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div style="color: var(--accent-rose); font-size: 0.85rem; margin-top: 0.25rem;">{{ field.errors.0 }}</div>
+                    {% endif %}
                 </div>
+                {% endfor %}
+                <button type="submit" class="glass-btn glass-btn-primary w-100" style="padding: 0.75rem;">ورود</button>
+            </form>
+            <div class="mt-4 text-center">
+                <a href="{% url 'accounts:register' %}" style="color: var(--text-muted); font-size: 0.9rem;">ثبت‌نام نکرده‌اید؟ کلیک کنید</a>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('#id_username, #id_password').forEach(function(el) {
+        if (el) {
+            el.classList.add('glass-input');
+            el.style.width = '100%';
+        }
+    });
+</script>
 {% endblock %}

@@ -4,52 +4,58 @@
 {% block title %}هزینه‌ها{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>هزینه‌های من</h2>
-    <div>
-    <a href="{% url 'expenses:expense_create' %}" class="btn btn-primary">+ هزینه جدید</a>
-    <a href="{% url 'excel:export' %}" class="btn btn-success">📥 خروجی اکسل</a>
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 fade-in">
+    <h2 class="page-title" style="margin-bottom: 0;">هزینه‌های من</h2>
+    <div class="mt-2 mt-md-0">
+        <a href="{% url 'expenses:expense_create' %}" class="glass-btn glass-btn-primary">+ هزینه جدید</a>
+        <a href="{% url 'excel:export' %}" class="glass-btn glass-btn-success">خروجی اکسل</a>
     </div>
 </div>
 
 {% if expenses %}
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>عنوان</th>
-                <th>دسته‌بندی</th>
-                <th>مقدار</th>
-                <th>مبلغ (تومان)</th>
-                <th>کل</th>
-                <th>ارزیابی</th>
-                <th>تاریخ</th>
-                <th>عملیات</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for expense in expenses %}
+    <div class="glass-card fade-in" style="padding: 0; overflow-x: auto;">
+        <table class="glass-table">
+            <thead>
                 <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ expense.title }}</td>
-                    <td>{{ expense.category.name }}</td>
-                    <td>{{ expense.quantity }}</td>
-                    <td>{{ expense.amount|intcomma }}</td>
-                    <td>{{ expense.total|intcomma }}</td>
-                    <td>{{ expense.get_evaluation_display }}</td>
-                    <td>{{ expense.jalali_date  }}</td>
-                    <td>
-                        <a href="{% url 'expenses:expense_update' expense.id %}" class="btn btn-sm btn-warning">ویرایش</a>
-                        <form action="{% url 'expenses:expense_delete' expense.id %}" method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('حذف شود؟')">حذف</button>
-                        </form>
-                    </td>
+                    <th>#</th>
+                    <th>عنوان</th>
+                    <th>دسته‌بندی</th>
+                    <th>مقدار</th>
+                    <th>مبلغ (تومان)</th>
+                    <th>کل</th>
+                    <th>ارزیابی</th>
+                    <th>تاریخ</th>
+                    <th>عملیات</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td style="color: var(--text-primary); font-weight: 500;">{{ expense.title }}</td>
+                        <td>{{ expense.category.name }}</td>
+                        <td>{{ expense.quantity }}</td>
+                        <td>{{ expense.amount|intcomma }}</td>
+                        <td style="color: var(--accent-teal); font-weight: 600;">{{ expense.total|intcomma }}</td>
+                        <td>{{ expense.get_evaluation_display }}</td>
+                        <td>{{ expense.jalali_date }}</td>
+                        <td>
+                            <a href="{% url 'expenses:expense_update' expense.id %}" class="glass-btn glass-btn-warning glass-btn-sm">ویرایش</a>
+                            <form action="{% url 'expenses:expense_delete' expense.id %}" method="POST" class="table-action-form">
+                                {% csrf_token %}
+                                <button type="submit" class="glass-btn glass-btn-danger glass-btn-sm" onclick="return confirm('حذف شود؟')">حذف</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% else %}
-    <p class="text-muted">هیچ هزینه‌ای ثبت نشده است.</p>
+    <div class="glass-empty-state fade-in">
+        <p style="font-size: 3rem; margin-bottom: 0.5rem;">📭</p>
+        <p>هیچ هزینه‌ای ثبت نشده است.</p>
+        <a href="{% url 'expenses:expense_create' %}" class="glass-btn glass-btn-primary mt-3" style="display: inline-block;">+ اولین هزینه را ثبت کنید</a>
+    </div>
 {% endif %}
 {% endblock %}
