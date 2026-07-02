@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}ثبت‌نام{% endblock %}
 
@@ -35,12 +36,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    document.querySelectorAll('#id_username, #id_password1, #id_password2').forEach(function(el) {
-        if (el) {
-            el.classList.add('glass-input');
-            el.style.width = '100%';
-        }
-    });
-</script>
+<script src="{% static 'js/auth.js' %}"></script>
 {% endblock %}

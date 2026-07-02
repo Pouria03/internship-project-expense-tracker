@@ -20,6 +20,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="navbar-nav me-auto">
+                        <a class="nav-link" href="{% url 'about' %}">درباره</a>
                         {% if user.is_authenticated %}
                             <a class="nav-link" href="{% url 'stats:stats' %}">آمار</a>
                             <a class="nav-link" href="{% url 'expenses:expense_list' %}">هزینه‌ها</a>
